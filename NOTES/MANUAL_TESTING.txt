@@ -1,0 +1,83 @@
+
+
+TEST BEHAVIOR MANUALLY:
+
+// camera
+- move camera by rmb-click
+- move camera by mouse-pointer at edge of viewport
+- zoom camera with mouse-wheel
+
+// entity select
+- single entity select with lmb-click 
+- single entity select with select-box
+- multi entity select with select-box
+- additive select with shift+lmb-click
+- additive select with shift+select-box
+- selection of entities results in display of selection indicator
+
+// entity dnd
+- single entity dnd
+- multi entity dnd
+- entity drag action results in display of drag indicator
+- entity dnd over existing entities results in roll-back
+- entity drag over existing entities results in display of illegal move indicator
+
+// entity rotate
+- single entity rotate with selection and Q or E keys
+- multi entity rotate with selection and Q or E keys
+
+// entity delete
+- single entity delete by dnd over delete UI
+- multi entity delete by dnd over delete UI
+- single entity delete by dnd over inventory UI
+- multi entity delete by dnd over inventory UI
+- selected entities can be deleted with Backspace key
+- entity item hover over UI delete zones results in display of delete indicator
+
+// inventory dnd
+- single entity creation with dnd from inventory-item UI
+- inventory-item click results in create and delete of entity
+- inventory-item dnd over existing entity results in delete of created entity
+- inventory-item drag over existing entity results in display of illegal placement indicator
+
+// multi-placement
+- inventory key press results in multi-placement mode
+- multi-placement mode is toggleable with additional press of the same inventory key
+- multi-placement mode switch to different inventory item if additional press is a different inventory key
+- multi-placement mode results in entity following the mouse cursor
+- lmb-click results in entity placement
+- entity to be placed is rotatable
+- placed enities are not selected and have a default appearance
+- multiple placements are possible as long as multi-placement mode is active
+- camera movement and zoom are possible while in multi-placement mode
+- selection is not possible in multi-placement mode
+- mouse over existing entity, while in multi-placement mode, results in display of illegal placement indicator
+- placement while over existing entity results in a noop
+
+// copy+paste
+- selection of one or more entities is required to use mode
+- copy command should result in multi-placement mode
+- mode causes draggable multi-placement of the initial entities selected
+- the multi-place entities are rotatable
+- lmb-click causes placement
+- lmb held down causes continuous placement
+- placement is committed only if it is valid
+- escape press exits mode
+
+// undo/redo history
+- moves should cause a history step
+- rotations should cause a history step
+- move with a rotation while moving should cause a single history step
+- "<" key should set game state 1 step back in history
+- follow-up ">" key should set game state 1 step forward in history
+- if at some midpoint in history, additional moves cause current state to be the new head of history
+
+// menu modal
+- esc toggles menu
+- menu button press "restart" reloads initalized game
+- menu button press "quit" quits game
+
+// mode switches
+- entering multi-placement mode deselects all entities
+- entering menu-mode deselects all entities and cancels other modes
+- exiting menu-mode enters default-mode

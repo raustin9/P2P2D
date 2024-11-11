@@ -1,0 +1,189 @@
+
+TODO:
+
+X setup environment:
+    X 2D
+    X top down
+    X camera movement
+    X camera zoom
+
+X game menu:
+    X restart
+    X quit
+
+X player controls:
+    X item select
+    X item placement
+    X item drag
+    X item rotation
+    X item destruction
+    X multi-select
+    X multi-drag
+    X multi-rotation
+    X multi-destroy
+
+X UI:
+    X inventory:
+        X drag from inventory
+        X drag to inventory to destroy
+
+
+REFINEMENTS:
+X delete hot key
+X make zoom zoom on mouse hover location
+X make camera move on touch to edge of viewport
+X clamp camera move to not be able to go farther than the board
+X additive selection via additive hotkey
+X fix entity->inventory sorting layers to be upon "dragging" state
+X give entities a "drag" state, where they've not yet been moved and validation 
+    can be performed
+X drag and drop to inventory bar should cause a delete
+X pending delete selection indicator color
+X inventory hotkeys for quick inventory selection and placement
+X inventory-hotkey mode should memorize last placement rotation
+X inventory-hotkey mode should mass place on cursor while lmb is held
+X make entity->cursor follow respect the discrete form of the mouse position
+X make escape key function differently per context:
+    X deselect if entities are selected
+    X exit inventory-hotkey mode
+X add telemetry ui for testing
+X make screen edge camera move more forgiving
+X undo/redo system, buttons, and hotkeys:
+    X have HistoryStack keep track of "bottom" so that just like "top", you 
+        cannot traverse past it
+    X implement redo
+    X BUG: rotations do not create history step
+    X use own UUIDs for history tracking so that objects can be instantiated and 
+        have them reassigned
+    X account for dnd onto same positions (should not cause a history step)
+X fix game entity management BUGS
+X rename entity-hotkey mode to multi-place mode (and other renaming)
+X add undo/redo history behavioral descriptions to MANUAL_TESTING doc
+X add controls instructions
+X refactor selection+drag:
+    X decompose functions for setting and applying mouse->entity positional offsets
+    X add to reset of offsets to entity group rotation
+    X add a global mode for ui-debug (should override local debug settings)
+    X add group drag container to the ui-debug mode
+X make multi-select rotations rotate entities together instead of individually
+X refactor multi-place to use drag-group
+X copy+paste (single and multi):
+    X selection of one or more entities is required to use mode
+    X copy command should result in multi-placement mode
+    X mode causes draggable multi-placement of the initial entities selected
+    X the multi-place entities are rotatable
+    X lmb-click causes placement
+    X lmb held down causes continuous placement
+    X placement is committed only if it is valid
+    X escape press exits mode
+X add inventory selection indicator to inventory bar
+X fix bugs:
+    X mode change to multiplace while dragging should cancel drag
+    X esc press while dragging should cancel drag
+X test various entity behaviors:
+    X reduce interaction behavioral scripts to be only selectable and draggable 
+    X automatic behaviors such as movement and rotation
+    X push history step per automatic behavior action
+X build tick system:
+    X tick manager
+    X event listeners
+    X play/pause controls
+    X fix bugs
+X refactor tick to apply auto-behaviors to managed-entities directly instead of 
+    through events (this will fix the history-step problem)
+X more entities with behaviors:
+    X wall
+    X resource
+    X behavioral (spawner, destroyer, duplicator, pusher, rotator, etc.)
+X cleanup renderer ordering (broken upon game-entity selection)
+X provide move and rotate interfaces for game-entities, migrate to using them
+X collect mutations per game-entity per tick and then perform an application step
+X make movement and rotation animated when entity actions are playing
+X don't allow entity manipulation when scene is running (only entity selection)
+X remove ffing of animations if it makes sense
+X refactor entity position and rotation animations to allow for positions
+    and rotations to always be descrete and for their SOTs to be the Unity
+    transforms
+X add rotation animations to player->entity manipulations
+X better tick-playing indication
+X BUGFIX: placement while rotating causes non discrete placements
+X make data block on/off state dictated by rotation so that history steps work
+    correctly with it
+X make history stepping animate
+X create a tick-resolution system where multiple passes are made on all entities
+    until it is determined that no more moves can be made.
+X create game-start scene with load game button
+X save POC:
+    X PlayScene:
+        X save click should save value to default save file
+    X LoadGame:
+        X single button click should load from save file and log
+    X follow-ups:
+        X save player camera position and zoom states and log load
+        X save all block states and log load
+        X debug button to delete all saves
+X save system requirements:
+    X GameStart:
+        X "new" should prompt player to name the new game via modal with text input
+    X PlayScene:
+        X display game save name
+        X Remove "restart"
+        X Add "load" which should nav to LoadGame
+        X "save" should save play state to associated save file
+    X LoadGame:
+        X all saved games should be diplayed as buttons
+        X click of button loads play state and navs to PlayScene
+        X saves should be deletable via "X" button next to saved game buttons
+X refinements:
+    X allow camera center to reach edge of gameplay bounds
+    X don't let entities leave or be created outside of the gameplay bounds
+    X another pass on telemetry
+    X another pass on controls instructions
+X overhaul inventory system:
+    X Additional game-entities should be simple and easy to add to the game
+    X plan:
+        X create inventory modal with mode when opened
+        X all game enities should be listed when inventory modal is opened
+        X click and number press of inventory item should assign it to the hotbar
+        X hotbar hotkey selection should initiate multiplacement
+        X hotbar item click should initiate multiplacement
+        X hotbar should be populated by a configurable scene submanager
+        X add hotbar to game save data
+X admin mode:
+    X toggleable
+    X place & move normally unmovable entities
+X autosaving:
+    X should save every x minutes
+    X should save on game close
+X multilayer game entity manager:
+    X layers:
+        X ground: paths, conveyors, pipes, conduits, may or may not be AOEs for object layer
+        X objects: things that can be upon ground items, but cannot occupy the same space as one another
+    X game entities belong to a single layer
+    X system allows for addition of layers and querying from layer to layer
+    X create ground-conveyor entity as POC
+    X entity history bugfixes:
+        X back in history causes multi delete and null ref bug
+    X make ground layer object appear behind object layer objects via texture layering
+    X make object layer objects smaller in order to create correct depth
+X cleanup pass:
+    X code cleanup
+    X clear up warnings
+    X create icons for ground-conveyor and wall
+X update README with template features
+
+
+BUGS:
+    - (intermittent) bug where rotation is not working and then starts working
+    - (intermittent) bug where history back/forward causes snapping instead of animation
+
+
+LATER:
+- workflow for multi-scene creation
+- (maybe) make position conflict resolution randomized
+- (maybe) refactor game-settings to be values exposed to editor and therefor possible to be exposed in-game
+- more entities with behaviors:
+    - (maybe) zone with effect (road, conveyor, etc.)
+    - (maybe) zone without effect (decoration)
+    - (maybe) modifiers (switch on wall, etc.)
+
